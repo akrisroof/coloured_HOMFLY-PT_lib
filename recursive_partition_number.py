@@ -1,3 +1,4 @@
+# http://www.cs.utsa.edu/~wagner/python/fp/part.html
 import sys
 
 LIM = 1000000
