@@ -2,6 +2,7 @@ from collections import Counter
 import  math
 from sympy import Symbol, factor, expand, Rational
 import numpy as np
+
 def accel_asc(n):
     a = [0 for unused_variable in range(n + 1)]
     k = 1
@@ -23,25 +24,30 @@ def accel_asc(n):
         a[k] = x + y
         y = x + y - 1
         yield a[:k + 1]
+
 def casimir(a):
     num = 0
     for i in range(0,len(a)):
         for j in range(0,a[i]):
             num = num + 2*(j - i)
     return num
+
 def printAllCasimirs(n):
     partitions = list(accel_asc(n))
     for i in range(0,len(partitions)):
         print('CasimirValue(',partitions[i],') = ',casimir(partitions[i]))
+        
 def NormOfYoungDiagram(a):
     sum = 0
     for i in range(0,len(a)):
         sum = sum + a[i]
     return sum
+
 def printAllNormOfYoungDiagram(n):
     partitions = list(accel_asc(n))
     for i in range(0,len(partitions)):
         print('Norm(',partitions[i],') = ',NormOfYoungDiagram(partitions[i]))
+
 def firstTermOfHOMPLY(k,r,setOfColours):
     t_power = 0
     nu_power = k * (r - 1)/2
@@ -49,15 +55,18 @@ def firstTermOfHOMPLY(k,r,setOfColours):
         t_power = t_power + casimir(setOfColours[i])            
     t_power = t_power * k * r/2
     print('t^{',t_power, '} *', '{/nu}^{',nu_power,'}')
+    
 def denominatorSizeOfConjClass(youngDiag):
     a = Counter(youngDiag)
     con = 1
     for j in range(0,NormOfYoungDiagram(youngDiag)+1):
         con = con * ((j**(a[j])) * math.factorial(a[j]))
     return con
+
 def sizeOfConjClass(youngDiag):
     res = math.factorial(NormOfYoungDiagram(youngDiag))//denominatorSizeOfConjClass(youngDiag)
     return res
+
 def printSizesOfConjClasses(number):
     qqq = list(accel_asc(number))
     summ = 0
@@ -65,6 +74,7 @@ def printSizesOfConjClasses(number):
         summ = summ + sizeOfConjClass(qqq[n])
         print("ConjClassSize(",qqq[n],") =",sizeOfConjClass(qqq[n]))  
     print(summ," -vs- ",math.factorial(number))
+    
 def productTermInSchurLatex(youngDiag):
     con='Z'
     for i in range(0,len(youngDiag)):
@@ -73,6 +83,7 @@ def productTermInSchurLatex(youngDiag):
         else:    
             con = con+'\\cdot\\frac{q^{'+str(youngDiag[i])+'/2}-q^{-'+str(youngDiag[i])+'/2} }{t^{'+str(youngDiag[i])+'/2}-t^{-'+str(youngDiag[i])+'/2} }'
     return con #it returns answer in latex format
+
 def getNumberBeforeSymbol(starting_index_in_file,symbol,charater_data):
     count=''
     i = starting_index_in_file
@@ -80,6 +91,7 @@ def getNumberBeforeSymbol(starting_index_in_file,symbol,charater_data):
         count = count + charater_data[i]
         i = i + 1
     return [int(count), i]
+
 def loadOfCharacterTableToMemory(number):
     qqq = list(accel_asc(number))
     f = open('CharacterTable/characterTable'+str(number)+'.txt', 'r+')
@@ -103,6 +115,7 @@ def loadOfCharacterTableToMemory(number):
         index_in_file += 1
     print('finally')
     return a
+
 def productTermInSchur(youngDiag):
     con = 1
     t = Symbol('t')
@@ -111,11 +124,13 @@ def productTermInSchur(youngDiag):
         con = con * (q**(Rational(youngDiag[i], 2))-q**(-Rational(youngDiag[i],2)))/(t**(Rational(youngDiag[i], 2))-t**(- Rational(youngDiag[i], 2)))
     res = factor(con)
     return res #it returns answer
+
 def quasiHadamarProduct(table, r):
     res = [0 for unused_variable in range(0, len(table))]
     for i in range(0,len(res)):
        res[i] = table[i] * r
     return res
+
 def specialSchurPolynomial(number, index):
     count = 0
     qqq = list(accel_asc(number))
