@@ -3,6 +3,8 @@ import  math
 from sympy import Symbol, factor, expand, Rational
 import numpy as np
 
+# Generating All Partitions: A Comparison Of Two Encodings
+# https://arxiv.org/abs/0909.2331
 def accel_asc(n):
     a = [0 for unused_variable in range(n + 1)]
     k = 1
@@ -25,6 +27,8 @@ def accel_asc(n):
         y = x + y - 1
         yield a[:k + 1]
 
+# Symmetries and Groups Michaelmas, Term 2008, Hugh Osborn
+# http://www.damtp.cam.ac.uk/user/ho/GNotes.pdf
 def casimir(a):
     num = 0
     for i in range(0,len(a)):
@@ -32,11 +36,13 @@ def casimir(a):
             num = num + 2*(j - i)
     return num
 
+# This function prints values of Casimir operator on each conjugacy class of symmetric group S_{n}
 def printAllCasimirs(n):
     partitions = list(accel_asc(n))
     for i in range(0,len(partitions)):
         print('CasimirValue(',partitions[i],') = ',casimir(partitions[i]))
         
+# This function returns total number of boxes in Young diagram
 def NormOfYoungDiagram(a):
     sum = 0
     for i in range(0,len(a)):
@@ -48,6 +54,8 @@ def printAllNormOfYoungDiagram(n):
     for i in range(0,len(partitions)):
         print('Norm(',partitions[i],') = ',NormOfYoungDiagram(partitions[i]))
 
+# ON THE HECKE ALGEBRAS AND THE COLORED HOMFLY POLYNOMIAL
+# https://arxiv.org/pdf/math/0601267.pdf
 def firstTermOfHOMPLY(k,r,setOfColours):
     t_power = 0
     nu_power = k * (r - 1)/2
